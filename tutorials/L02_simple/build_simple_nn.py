@@ -34,8 +34,7 @@ sess = tf.Session()
 sess.run(init)
  
 fig =  plt.figure()
-_d_ = 0.5
-plt.ylim((np.min(y_data)-_d_, np.max(y_data)+_d_))
+# plt.ylim((np.min(y_data)-_d_, np.max(y_data)+_d_))    # 会造成系统奔溃
 ax = fig.add_subplot(1,1,1) # 使用动画效果
 ax.scatter(x_data, y_data,  c='blue', marker='.')
 plt.ion()   # 设置show以后不暂停 py3.5
@@ -64,7 +63,7 @@ for i in range(1000):
         lines = ax.plot(x_data, prediction_value, 'r-', lw=2)
         plt.pause(0.1)
 
-plt.pause(-1)
+# plt.pause(1)
         
 if __name__=="__main__":
     pass

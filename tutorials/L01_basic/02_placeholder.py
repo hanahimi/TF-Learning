@@ -16,14 +16,14 @@ if 1:
     # horizon vector
     x3 = tf.placeholder(dtype=tf.float32, shape=[1,2], name="x3")
     x4 = tf.placeholder(dtype=tf.float32, shape=[1,2], name="x4")
-    y2 = tf.mul(x3, x4)     # =x3*x4, = tf.multiply(x3, x4)
+    y2 = tf.matmul(x3, x4)     # =x3*x4, = tf.multiply(x3, x4)
     v3 = [[1,2]]
     v4 = [[3,4]]
 else:
     # vertial vector
     x3 = tf.placeholder(dtype=tf.float32, shape=[2,1], name="x3")
     x4 = tf.placeholder(dtype=tf.float32, shape=[2,1], name="x4")
-    y2 = tf.mul(x3, x4)     
+    y2 = tf.matmul(x3, x4)     
     v3 = [[1],[2]]
     v4 = [[3],[4]]
 
