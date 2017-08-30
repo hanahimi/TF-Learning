@@ -1,0 +1,117 @@
+start time:
+2016-09-05-20-32-10
+training:
+Iter:5120 Minibatch Loss=0.14752 Train Accuracy=0.94922 training time=0.666
+Iter:10240 Minibatch Loss=0.17060 Train Accuracy=0.93750 training time=0.643
+Iter:15360 Minibatch Loss=0.17770 Train Accuracy=0.90625 training time=0.606
+Iter:20480 Minibatch Loss=0.11536 Train Accuracy=0.95312 training time=0.575
+Iter:25600 Minibatch Loss=0.13641 Train Accuracy=0.93750 training time=0.597
+Iter:30720 Minibatch Loss=0.13999 Train Accuracy=0.92578 training time=0.542
+Iter:35840 Minibatch Loss=0.10861 Train Accuracy=0.95703 training time=0.685
+Iter:40960 Minibatch Loss=0.09654 Train Accuracy=0.95703 training time=0.613
+Iter:46080 Minibatch Loss=0.10527 Train Accuracy=0.95312 training time=0.605
+Iter:51200 Minibatch Loss=0.07237 Train Accuracy=0.97656 training time=0.619
+Iter:56320 Minibatch Loss=0.08929 Train Accuracy=0.96094 training time=0.566
+Iter:61440 Minibatch Loss=0.10010 Train Accuracy=0.96484 training time=0.621
+Iter:66560 Minibatch Loss=0.05875 Train Accuracy=0.97656 training time=0.649
+Iter:71680 Minibatch Loss=0.06823 Train Accuracy=0.96875 training time=0.584
+Iter:76800 Minibatch Loss=0.05774 Train Accuracy=0.97656 training time=0.594
+Iter:81920 Minibatch Loss=0.03072 Train Accuracy=0.98828 training time=0.570
+Iter:87040 Minibatch Loss=0.05479 Train Accuracy=0.98828 training time=0.610
+Iter:92160 Minibatch Loss=0.03402 Train Accuracy=0.99219 training time=0.619
+Iter:97280 Minibatch Loss=0.04640 Train Accuracy=0.98047 training time=0.597
+Iter:102400 Minibatch Loss=0.02968 Train Accuracy=0.99609 training time=0.625
+Iter:107520 Minibatch Loss=0.03417 Train Accuracy=0.98438 training time=0.550
+Iter:112640 Minibatch Loss=0.03479 Train Accuracy=0.99219 training time=0.613
+Iter:117760 Minibatch Loss=0.06419 Train Accuracy=0.96484 training time=0.630
+Iter:122880 Minibatch Loss=0.02345 Train Accuracy=0.99219 training time=0.579
+Iter:128000 Minibatch Loss=0.06725 Train Accuracy=0.97266 training time=0.696
+Iter:133120 Minibatch Loss=0.04306 Train Accuracy=0.98828 training time=0.669
+Iter:138240 Minibatch Loss=0.04451 Train Accuracy=0.97656 training time=0.646
+Iter:143360 Minibatch Loss=0.02850 Train Accuracy=0.99219 training time=0.573
+Iter:148480 Minibatch Loss=0.04662 Train Accuracy=0.98828 training time=0.603
+Iter:153600 Minibatch Loss=0.01791 Train Accuracy=0.99609 training time=0.608
+Iter:158720 Minibatch Loss=0.03806 Train Accuracy=0.98828 training time=0.532
+Iter:163840 Minibatch Loss=0.03150 Train Accuracy=0.98438 training time=0.630
+Iter:168960 Minibatch Loss=0.01445 Train Accuracy=1.00000 training time=0.544
+Iter:174080 Minibatch Loss=0.02053 Train Accuracy=0.99609 training time=0.635
+Iter:179200 Minibatch Loss=0.02709 Train Accuracy=0.99609 training time=0.643
+Iter:184320 Minibatch Loss=0.01401 Train Accuracy=0.99609 training time=0.609
+Iter:189440 Minibatch Loss=0.02582 Train Accuracy=0.99219 training time=0.575
+Iter:194560 Minibatch Loss=0.00856 Train Accuracy=1.00000 training time=0.572
+Iter:199680 Minibatch Loss=0.04469 Train Accuracy=0.98828 training time=0.606
+end training:
+current time:2016-09-05-20-41-32
+start testing:
+end testing:
+Testing Accuracy:0.991970, total times:26.978815, avg time:0.001884
+current time:2016-09-05-20-41-59
+start time:
+2016-09-06-03-14-31
+training:
+Iter:5120 Minibatch Loss=0.01818 Train Accuracy=0.99609 training time=0.502
+Iter:10240 Minibatch Loss=0.05196 Train Accuracy=0.98047 training time=0.573
+Iter:15360 Minibatch Loss=0.04004 Train Accuracy=0.98047 training time=0.525
+Iter:20480 Minibatch Loss=0.00913 Train Accuracy=1.00000 training time=0.540
+Iter:25600 Minibatch Loss=0.01203 Train Accuracy=0.99609 training time=0.549
+Iter:30720 Minibatch Loss=0.01135 Train Accuracy=1.00000 training time=0.510
+Iter:35840 Minibatch Loss=0.00840 Train Accuracy=1.00000 training time=0.478
+Iter:40960 Minibatch Loss=0.02378 Train Accuracy=0.99219 training time=0.554
+Iter:46080 Minibatch Loss=0.01195 Train Accuracy=1.00000 training time=0.526
+Iter:51200 Minibatch Loss=0.03318 Train Accuracy=0.98828 training time=0.538
+Iter:56320 Minibatch Loss=0.01879 Train Accuracy=0.99609 training time=0.515
+Iter:61440 Minibatch Loss=0.02166 Train Accuracy=1.00000 training time=0.562
+Iter:66560 Minibatch Loss=0.02096 Train Accuracy=0.99219 training time=0.520
+Iter:71680 Minibatch Loss=0.02821 Train Accuracy=0.99219 training time=0.503
+Iter:76800 Minibatch Loss=0.00938 Train Accuracy=0.99609 training time=0.527
+Iter:81920 Minibatch Loss=0.02161 Train Accuracy=0.99219 training time=0.509
+Iter:87040 Minibatch Loss=0.01160 Train Accuracy=1.00000 training time=0.559
+Iter:92160 Minibatch Loss=0.00804 Train Accuracy=0.99609 training time=0.497
+Iter:97280 Minibatch Loss=0.01780 Train Accuracy=0.99219 training time=0.581
+Iter:102400 Minibatch Loss=0.01661 Train Accuracy=0.99609 training time=0.553
+Iter:107520 Minibatch Loss=0.02200 Train Accuracy=0.99609 training time=0.602
+Iter:112640 Minibatch Loss=0.02020 Train Accuracy=0.99219 training time=0.691
+Iter:117760 Minibatch Loss=0.02634 Train Accuracy=0.99219 training time=0.564
+Iter:122880 Minibatch Loss=0.02185 Train Accuracy=0.98828 training time=0.523
+Iter:128000 Minibatch Loss=0.01658 Train Accuracy=0.99609 training time=0.586
+Iter:133120 Minibatch Loss=0.01034 Train Accuracy=0.99609 training time=0.716
+Iter:138240 Minibatch Loss=0.03286 Train Accuracy=0.99219 training time=0.591
+Iter:143360 Minibatch Loss=0.01699 Train Accuracy=0.99609 training time=0.534
+Iter:148480 Minibatch Loss=0.00936 Train Accuracy=0.99609 training time=0.526
+Iter:153600 Minibatch Loss=0.01643 Train Accuracy=0.99609 training time=0.615
+Iter:158720 Minibatch Loss=0.00879 Train Accuracy=0.99609 training time=0.711
+Iter:163840 Minibatch Loss=0.00249 Train Accuracy=1.00000 training time=0.582
+Iter:168960 Minibatch Loss=0.01794 Train Accuracy=0.98828 training time=0.558
+Iter:174080 Minibatch Loss=0.01385 Train Accuracy=0.99609 training time=0.743
+Iter:179200 Minibatch Loss=0.01211 Train Accuracy=0.99609 training time=0.555
+Iter:184320 Minibatch Loss=0.00610 Train Accuracy=1.00000 training time=0.568
+Iter:189440 Minibatch Loss=0.01477 Train Accuracy=0.99609 training time=0.522
+Iter:194560 Minibatch Loss=0.03421 Train Accuracy=0.99219 training time=0.636
+Iter:199680 Minibatch Loss=0.01966 Train Accuracy=0.99609 training time=0.608
+end training:
+current time:2016-09-06-03-23-19
+start testing:
+end testing:
+Testing Accuracy:0.992785, total times:52.042029, avg time:0.001684
+current time:2016-09-06-03-24-11
+start time:
+2017-01-18-10-22-39
+training:
+start time:
+2017-01-18-10-23-09
+training:
+start time:
+2017-01-18-10-24-11
+training:
+end training:
+current time:2017-01-18-10-24-14
+start testing:
+start time:
+2017-01-18-10-24-42
+training:
+end training:
+current time:2017-01-18-10-24-45
+start testing:
+end testing:
+Testing Accuracy:0.662500, total times:12.810733, avg time:0.020017
+current time:2017-01-18-10-24-57
