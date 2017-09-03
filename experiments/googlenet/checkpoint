@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:\\Ayumi\\workspace\\eclipse_workspace\\TF_DLL_Code\\googlenet\\model_googlenet-1000"
+all_model_checkpoint_paths: "D:\\Ayumi\\workspace\\eclipse_workspace\\TF_DLL_Code\\googlenet\\model_googlenet-1000"
