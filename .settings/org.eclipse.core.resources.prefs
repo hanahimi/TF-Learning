@@ -1,2 +1,15 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//src/testdemo/demo01_basic_operation.py=UTF-8
+=======
+encoding//src/ggln/in.py=UTF-8
+encoding//tutorials/L01_basic/01_Session.py=UTF-8
+encoding//tutorials/L01_basic/02_placeholder.py=UTF-8
+encoding//tutorials/L01_basic/03_variable.py=UTF-8
+encoding//tutorials/L01_basic/04_activation.py=UTF-8
+encoding//tutorials/L02_simple/add_layer.py=UTF-8
+encoding//tutorials/L02_simple/build_simple_nn.py=UTF-8
+encoding//tutorials/L02_simple/simple_regression.py=UTF-8
+encoding//tutorials/L02_simple/simple_tensorboard_01.py=UTF-8
+encoding//tutorials/L02_simple/simple_tensorboard_02.py=UTF-8
+>>>>>>> remotes/origin/Movan_Python_Tutorials
