@@ -240,3 +240,21 @@ class Network(object):
     def dropout(self, input, keep_prob, name):
         keep = 1 - self.use_dropout + (self.use_dropout * keep_prob)
         return tf.nn.dropout(input, keep, name=name)
+
+
+"""
+Pooling:
+"VALID" = without padding:
+   inputs:         1  2  3  4  5  6  7  8  9  10 11 (12 13)
+                  |________________|                dropped
+                                 |_________________|
+"SAME" = with zero padding:
+               pad|                                      |pad
+   inputs:      0 |1  2  3  4  5  6  7  8  9  10 11 12 13|0  0
+               |________________|
+                              |_________________|
+                                             |________________|
+Input width = 13
+Filter width = 6
+Stride = 5
+"""
