@@ -6,11 +6,10 @@ from posenet import GoogLeNet as PoseNet
 import cv2
 from tqdm import tqdm
 
-
 batch_size = 75
 max_iterations = 30000
 # Set this path to your dataset directory
-directory = 'path_to_datasets/KingsCollege/'
+directory = r'E:/KingsCollege/KingsCollege/'
 dataset = 'dataset_train.txt'
 
 class datasource(object):
@@ -26,8 +25,8 @@ def centeredCrop(img, output_side_length):
 		new_height = output_side_length * height / width
 	else:
 		new_width = output_side_length * width / height
-	height_offset = (new_height - output_side_length) / 2
-	width_offset = (new_width - output_side_length) / 2
+	height_offset = int((new_height - output_side_length) / 2)
+	width_offset = int((new_width - output_side_length) / 2)
 	cropped_img = img[height_offset:height_offset + output_side_length,
 						width_offset:width_offset + output_side_length]
 	return cropped_img
@@ -62,7 +61,6 @@ def preprocess(images):
 def get_data():
 	poses = []
 	images = []
-
 	with open(directory+dataset) as f:
 		next(f)  # skip the 3 header lines
 		next(f)
@@ -83,7 +81,7 @@ def get_data():
 
 def gen_data(source):
 	while True:
-		indices = range(len(source.images))
+		indices = list(range(len(source.images)))
 		random.shuffle(indices)
 		for i in indices:
 			image = source.images[i]
@@ -135,12 +133,12 @@ def main():
 
 	init = tf.global_variables_initializer()
 	saver = tf.train.Saver()
-	outputFile = "PoseNet.ckpt"
+	outputFile = r"E:/KingsCollege/PoseNet.ckpt"
 
 	with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
 		# Load the data
 		sess.run(init)
-		net.load('posenet.npy', sess)
+		net.load(r'E:/KingsCollege/posenet.npy', sess)
 
 		data_gen = gen_data_batch(datasource)
 		for i in range(max_iterations):
