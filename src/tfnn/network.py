@@ -3,31 +3,6 @@ import tensorflow as tf
 
 DEFAULT_PADDING = 'SAME'
 
-def layer(op):
-    '''Decorator for composable network layers.'''
-
-    def layer_decorated(self, *args, **kwargs):
-        # Automatically set a name if not provided.
-        name = kwargs.setdefault('name', self.get_unique_name(op.__name__))
-        # Figure out the layer inputs.
-        if len(self.terminals) == 0:
-            raise RuntimeError('No input variables found for layer %s.' % name)
-        elif len(self.terminals) == 1:
-            layer_input = self.terminals[0]
-        else:
-            layer_input = list(self.terminals)
-        # Perform the operation and get the output.
-        layer_output = op(self, layer_input, *args, **kwargs)
-        # Add to layer LUT.
-        self.layers[name] = layer_output
-        # This output is now the input for the next layer.
-        self.feed(layer_output)
-        # Return self for chained calls.
-        return self
-
-    return layer_decorated
-
-
 class Network(object):
     def __init__(self, inputs, trainable=True):
         # The input nodes for this network
@@ -54,10 +29,10 @@ class Network(object):
         session: The current TensorFlow session
         ignore_missing: If true, serialized weights for missing layers are ignored.
         '''
-        data_dict = np.load(data_path, encoding="latin1").item()
+        data_dict = np.load(data_path).item()
         for op_name in data_dict:
             with tf.variable_scope(op_name, reuse=True):
-                for param_name, data in data_dict[op_name].items():
+                for param_name, data in data_dict[op_name].iteritems():
                     try:
                         var = tf.get_variable(param_name)
                         session.run(var.assign(data))
@@ -99,7 +74,6 @@ class Network(object):
         '''Verifies that the padding is one of the supported ones.'''
         assert padding in ('SAME', 'VALID')
 
-    @layer
     def conv(self,
              input,
              k_h,
@@ -142,11 +116,9 @@ class Network(object):
                 output = tf.nn.relu(output, name=scope.name)
             return output
 
-    @layer
     def relu(self, input, name):
         return tf.nn.relu(input, name=name)
 
-    @layer
     def max_pool(self, input, k_h, k_w, s_h, s_w, name, padding=DEFAULT_PADDING):
         self.validate_padding(padding)
         return tf.nn.max_pool(input,
@@ -155,7 +127,6 @@ class Network(object):
                               padding=padding,
                               name=name)
 
-    @layer
     def avg_pool(self, input, k_h, k_w, s_h, s_w, name, padding=DEFAULT_PADDING):
         self.validate_padding(padding)
         return tf.nn.avg_pool(input,
@@ -164,7 +135,6 @@ class Network(object):
                               padding=padding,
                               name=name)
 
-    @layer
     def lrn(self, input, radius, alpha, beta, name, bias=1.0):
         return tf.nn.local_response_normalization(input,
                                                   depth_radius=radius,
@@ -173,15 +143,12 @@ class Network(object):
                                                   bias=bias,
                                                   name=name)
 
-    @layer
     def concat(self, inputs, axis, name):
         return tf.concat(values=inputs, axis=axis, name=name)
 
-    @layer
     def add(self, inputs, name):
         return tf.add_n(inputs, name=name)
 
-    @layer
     def fc(self, input, num_out, name, relu=True):
         with tf.variable_scope(name) as scope:
             input_shape = input.get_shape()
@@ -199,7 +166,6 @@ class Network(object):
             fc = op(feed_in, weights, biases, name=scope.name)
             return fc
 
-    @layer
     def softmax(self, input, name):
         input_shape = map(lambda v: v.value, input.get_shape())
         if len(input_shape) > 2:
@@ -212,7 +178,6 @@ class Network(object):
                 raise ValueError('Rank 2 tensor input expected for softmax!')
         return tf.nn.softmax(input, name)
 
-    @layer
     def batch_normalization(self, input, name, scale_offset=True, relu=False):
         # NOTE: Currently, only inference is supported
         with tf.variable_scope(name) as scope:
@@ -236,7 +201,6 @@ class Network(object):
                 output = tf.nn.relu(output)
             return output
 
-    @layer
     def dropout(self, input, keep_prob, name):
         keep = 1 - self.use_dropout + (self.use_dropout * keep_prob)
         return tf.nn.dropout(input, keep, name=name)
