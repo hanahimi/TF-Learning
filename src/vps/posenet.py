@@ -5,18 +5,19 @@ author: Gary-W
 '''
 import tensorflow as tf
 from vps.network_tookit import NW
-
+import numpy as np
+import pickle
 
 class Posenet(object):
     def __init__(self, x, weights_path="default"):
         """
         Inputs:
         x: placeholder for images
-        weights_path: path string, path to pretraining weights, a pkl file
+        weights_path: path string, path to pretraining weights, a npy file
         """
         self.X = x
-        self.weights_path = weights_path
-
+        self.WEIGHTS_PATH = weights_path
+        self.SKIP_LAYER = []
         # call the create function to build the computational graph of posenet
         self.create()
     
@@ -240,9 +241,35 @@ class Posenet(object):
             cls3_fc_pose_xy = NW.fc(cls3_fc1_pose, 2, relu=False, name='cls3_fc_pose_xy')
             cls3_fc_pose_ab = NW.fc(cls3_fc1_pose, 2, relu=False, name='cls3_fc_pose_ab')
         
-    def load_initial_weights(self):
-        pass
-
+    def load_initial_weights(self, session, SKIP_LAYER=[]):
+        """
+        load pretraining weights except the layers in self.skip_layers into memary
+        the input weights is a dict-type data, 
+        each key is the name of a layer, such as "conv1", "fc1"m etc
+        and their value is also a dict has key: "weight" and "biases", eg.
+        w = layer_params["conv1"]["weights"]
+        b = layer_params["conv1"]["biases"]
+        """
+        self.SKIP_LAYER = SKIP_LAYER
+        layer_params = np.load(self.WEIGHTS_PATH, encoding = "latin1").item()
+        
+        # Loop over all layer names stored in the weights dict
+        for op_name in layer_params:
+            # Check if the layer is one of the layers that should be reinitialized
+            if op_name not in self.SKIP_LAYER:
+                with tf.variable_scope(op_name, reuse = True):
+                    # Loop over list of weights/biases and assign them to their corresponding tf variable
+                    for key in layer_params[op_name]:
+                        print("load layer params:%s" % op_name)
+                        data = layer_params[op_name][key]
+                        # Biases
+                        if len(data.shape) == 1:
+                            var = tf.get_variable('biases', trainable = False)
+                            session.run(var.assign(data))
+                        # Weights
+                        else:
+                            var = tf.get_variable('weights', trainable = False)
+                            session.run(var.assign(data))
 
 if __name__=="__main__":
     pass
