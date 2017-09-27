@@ -6,10 +6,10 @@ from posenet import GoogLeNet as PoseNet
 import cv2
 from tqdm import tqdm
 
-batch_size = 75
+batch_size = 32
 max_iterations = 30000
 # Set this path to your dataset directory
-directory = r'E:/KingsCollege/KingsCollege/'
+directory = r'D:\loc_train'
 dataset = 'dataset_train.txt'
 
 class datasource(object):
@@ -61,7 +61,7 @@ def preprocess(images):
 def get_data():
 	poses = []
 	images = []
-	with open(directory+dataset) as f:
+	with open(os.path.join(directory,dataset)) as f:
 		next(f)  # skip the 3 header lines
 		next(f)
 		next(f)
@@ -76,6 +76,8 @@ def get_data():
 			p6 = float(p6)
 			poses.append((p0,p1,p2,p3,p4,p5,p6))
 			images.append(directory+fname)
+			if len(images) > 100:
+				break
 	images = preprocess(images)
 	return datasource(images, poses)
 
@@ -111,12 +113,12 @@ def main():
 
 	net = PoseNet({'data': images})
 
-	p1_x = net.layers['cls1_fc_pose_xyz']
-	p1_q = net.layers['cls1_fc_pose_wpqr']
-	p2_x = net.layers['cls2_fc_pose_xyz']
-	p2_q = net.layers['cls2_fc_pose_wpqr']
-	p3_x = net.layers['cls3_fc_pose_xyz']
-	p3_q = net.layers['cls3_fc_pose_wpqr']
+	p1_x = net.layers['cls1_fc_pose_xy']
+	p1_q = net.layers['cls1_fc_pose_ab']
+	p2_x = net.layers['cls2_fc_pose_xy']
+	p2_q = net.layers['cls2_fc_pose_ab']
+	p3_x = net.layers['cls3_fc_pose_xy']
+	p3_q = net.layers['cls3_fc_pose_ab']
 
 	l1_x = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(p1_x, poses_x)))) * 0.3
 	l1_q = tf.sqrt(tf.reduce_sum(tf.square(tf.subtract(p1_q, poses_q)))) * 150
@@ -128,17 +130,15 @@ def main():
 	loss = l1_x + l1_q + l2_x + l2_q + l3_x + l3_q
 	opt = tf.train.AdamOptimizer(learning_rate=0.0001, beta1=0.9, beta2=0.999, epsilon=0.00000001, use_locking=False, name='Adam').minimize(loss)
 
-	# Set GPU options
-	gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6833)
 
 	init = tf.global_variables_initializer()
 	saver = tf.train.Saver()
-	outputFile = r"E:/KingsCollege/PoseNet.ckpt"
+	outputFile = r"D:\loc_train\PoseNet.ckpt"
 
-	with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
+	with tf.Session() as sess:
 		# Load the data
 		sess.run(init)
-		net.load(r'E:/KingsCollege/posenet.npy', sess)
+		net.load(r'D:\loc_train\posenet.npy', sess)
 
 		data_gen = gen_data_batch(datasource)
 		for i in range(max_iterations):

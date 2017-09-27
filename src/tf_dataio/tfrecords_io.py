@@ -47,16 +47,20 @@ class ExampleReader(object):
     @staticmethod
     def _int64_feature(value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))  
-      
+        
     @staticmethod
-    def _bytes_feature(value):  
+    def _int64_List_feature(value):
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
+        
+    @staticmethod
+    def _bytes_feature(value):
         return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))  
-      
+
     @staticmethod
     def _float_feature(value):  
         return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))  
-            
 
+    
     @staticmethod
     def convert_logs_to_tfrecords(src_dataset_log_path, dst_tf_records_path, processfunc):
         """ 
@@ -68,6 +72,7 @@ class ExampleReader(object):
     
         用户需要实现 processfunc 函数，将logs中的数据转换为tfcords的feature字典(or 字典的列表)
         将logs中的数据转换的tf example 并写入 到tfrecords
+        tf 按顺序写入，在测试时随机batch 或者给定的log就是shuffle过的
         """
         # 解析数据文本文件
         dataset_log_path = src_dataset_log_path
@@ -83,66 +88,77 @@ class ExampleReader(object):
         # 检查是否已经存在对应的数据文件，已有则删除
         tf_records_path = dst_tf_records_path
         if os.path.exists(tf_records_path):
-            shutil.rmtree(tf_records_path)
+            os.remove(tf_records_path)
         
         writer = tf.python_io.TFRecordWriter(tf_records_path)
+        get_data_num = 0
         for i in range(data_num):
-            if not i % 1000:
-                print("converting: %d/%d" % (i/data_num))
+            if not i % 10:
+                print("converting: %d/%d %s" % (i, data_num, dataset_log_list[i]))
     
             # 创建对应的属性列表（兼容由一个样本增强为多个样本的情况）
             featurelist = processfunc(dataset_log_list[i])
             
             # 检查是否为多个样本
             if type(featurelist) == list:
-                for fi in range(featurelist):
+                for fi in range(len(featurelist)):
                     feature = featurelist[fi]
                     # 创建一个example protocol buffer 
                     example = tf.train.Example(features=tf.train.Features(feature=feature))  
                     writer.write(example.SerializeToString())
+                    get_data_num += 1
     
             # 检查是否为单个样本
             elif type(featurelist) == dict:
                 feature = featurelist
                 example = tf.train.Example(features=tf.train.Features(feature=feature))  
                 writer.write(example.SerializeToString())
+                get_data_num += 1
             else:
                 print("unknow feature")
             
         writer.close()
-        print("tfrecord convert finish\n")
-        return data_num
+        print("tfrecord convert finish data numbers: %d\n" % get_data_num)
+        return get_data_num
 
-def touch_tfrecords(src_tf_records_path, processfunc, feature):
-    """ 
-    从tfrecords文件中还原数据
-    输入：
-        src_tf_records_path：源tf_records文件路径
-        processfunc： 用户提供的处理函数 processfunc(feature)
-        feature: 定义feature，这里要和之前创建的时候保持一致
-        eg.
-        feature = {  
-                'train/image': tf.FixedLenFeature([], tf.string),  
-                'train/label': tf.FixedLenFeature([], tf.int64)  
-            }
-    用户需要实现 processfunc函数，对feature进行解析以及后处理
-    """
-    
-    # 创建一个队列来维护输入文件列表  
-    filename_queue = tf.train.string_input_producer([src_tf_records_path], num_epochs=1)  
-    
-    reader = tf.TFRecordReader()     # 定义一个 reader ，读取下一个 record  
-    _, serialized_example = reader.read(filename_queue) 
-    
-    # 解析读入的一个record  
-    features = tf.parse_single_example(serialized_example, features=feature) 
-    
-    # 对feature见解析
-    label, img = processfunc(features)
- 
-    init = tf.initialize_all_variables()
-    with tf.Session() as sess:
-        pass
+    @staticmethod
+    def touch_tfrecords(src_tf_records_path, processfunc, feature):
+        """ 
+        从tfrecords文件中还原数据
+        输入：
+            src_tf_records_path：源tf_records文件路径
+            processfunc： 用户提供的处理函数 processfunc(feature)
+            feature: 定义feature，这里要和之前创建的时候保持一致
+            eg.
+            feature = {  
+                    'train/image': tf.FixedLenFeature([], tf.string),  
+                    'train/label': tf.FixedLenFeature([], tf.int64)  
+                }
+        用户需要实现 processfunc函数，对feature进行解析以及后处理
+        """
+        
+        # 创建一个队列来维护输入文件列表  
+        filename_queue = tf.train.string_input_producer([src_tf_records_path], num_epochs=1)  
+        
+        reader = tf.TFRecordReader()     # 定义一个 reader ，读取下一个 record  
+        _, serialized_example = reader.read(filename_queue) 
+        
+        # 解析读入的一个record  
+        features = tf.parse_single_example(serialized_example, features=feature) 
+        
+        # 对feature见解析
+        data_batch = processfunc(features)
+     
+        init = tf.initialize_all_variables()
+        with tf.Session() as sess:
+            sess.run(tf.global_variables_initializer())
+            coord = tf.train.Coordinator()
+            threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+            
+            
+            coord.request_stop()
+            coord.join(threads)
+            print('Finished')
         
 if __name__=="__main__":
     pass
