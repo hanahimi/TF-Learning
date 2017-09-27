@@ -1,4 +1,4 @@
-from network import Network
+from poselstm.network import Network
 
 class GoogLeNet(Network):
     def setup(self):
@@ -71,10 +71,10 @@ class GoogLeNet(Network):
              .avg_pool(5, 5, 3, 3, padding='VALID', name='cls1_pool')
              .conv(1, 1, 128, 1, 1, name='cls1_reduction_pose')
              .fc(1024, name='cls1_fc1_pose')
-             .fc(3, relu=False, name='cls1_fc_pose_xyz'))
+             .fc(2, relu=False, name='cls1_fc_pose_xy'))
 
         (self.feed('cls1_fc1_pose')
-             .fc(4, relu=False, name='cls1_fc_pose_wpqr'))
+             .fc(2, relu=False, name='cls1_fc_pose_ab'))
 
         (self.feed('icp3_out')
              .conv(1, 1, 112, 1, 1, name='icp4_reduction1')
@@ -137,10 +137,10 @@ class GoogLeNet(Network):
              .avg_pool(5, 5, 3, 3, padding='VALID', name='cls2_pool')
              .conv(1, 1, 128, 1, 1, name='cls2_reduction_pose')
              .fc(1024, name='cls2_fc1')
-             .fc(3, relu=False, name='cls2_fc_pose_xyz'))
+             .fc(2, relu=False, name='cls2_fc_pose_xy'))
 
         (self.feed('cls2_fc1')
-             .fc(4, relu=False, name='cls2_fc_pose_wpqr'))
+             .fc(2, relu=False, name='cls2_fc_pose_ab'))
 
         (self.feed('icp6_out')
              .conv(1, 1, 160, 1, 1, name='icp7_reduction1')
@@ -203,9 +203,9 @@ class GoogLeNet(Network):
              .concat(3, name='icp9_out')
              .avg_pool(7, 7, 1, 1, padding='VALID', name='cls3_pool')
              .fc(2048, name='cls3_fc1_pose')
-             .fc(3, relu=False, name='cls3_fc_pose_xyz'))
+             .fc(2, relu=False, name='cls3_fc_pose_xy'))
 
         (self.feed('cls3_fc1_pose')
-             .fc(4, relu=False, name='cls3_fc_pose_wpqr'))
+             .fc(2, relu=False, name='cls3_fc_pose_ab'))
 
 
