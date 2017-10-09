@@ -27,13 +27,11 @@ fc ≤„Õ¨¿Ì
 
 '''
 import caffe
-from util.dataio import store_pickle
-
-DEBUG = True
+import numpy as np
 
 caffe_net = 'data/src.prototxt'
 caffe_weights = 'data/src.caffemodel'
-save_path = 'data/src.pkl'
+save_path = 'data/src.npy'
 
 caffe_model = caffe.Net(caffe_net, caffe_weights, caffe.TEST)
 
@@ -71,7 +69,8 @@ for i, layer in enumerate(caffe_model.layers):
     print("\n")
 
 print("save params")
-store_pickle(save_path, layer_params)
+np.save(save_path, layer_params)
+
 
 if __name__=="__main__":
     pass

@@ -5,7 +5,7 @@ author: Gary-W
 '''
 import tensorflow as tf
 from vps.posenet import Posenet
- 
+
 # 定义输入单元 placeholder
 with tf.name_scope('inputs'):
     images = tf.placeholder(dtype=tf.float32, shape=[None,  224, 224, 3],name='images')
@@ -13,7 +13,7 @@ with tf.name_scope('inputs'):
     poses_ab = tf.placeholder(dtype=tf.float32, shape=[None, 2],name='poses_ab')
      
 with tf.name_scope('vps'):
-    weights_path = r"D:\loc_train\posenet2.npy"
+    weights_path = r"D:\loc_train\googlenet\version_4_googlenet_places_short\places_googlenet.npy"
     net = Posenet(images, weights_path)
  
 init = tf.global_variables_initializer()
