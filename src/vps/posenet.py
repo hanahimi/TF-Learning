@@ -6,7 +6,6 @@ author: Gary-W
 import tensorflow as tf
 from vps.network_tookit import NW
 import numpy as np
-import pickle
 
 class Posenet(object):
     def __init__(self, x, weights_path="default"):
@@ -16,11 +15,12 @@ class Posenet(object):
         weights_path: path string, path to pretraining weights, a npy file
         """
         self.X = x
+        self.layers = {}
         self.WEIGHTS_PATH = weights_path
         self.SKIP_LAYER = []
         # call the create function to build the computational graph of posenet
         self.create()
-    
+
     def create(self):
         """ create pose network (based on googlenet)"""
         
@@ -103,6 +103,8 @@ class Posenet(object):
             cls1_fc1_pose = NW.fc(cls1_reduction_pose, 1024, name='cls1_fc1_pose')
             cls1_fc_pose_xy = NW.fc(cls1_fc1_pose, 2, relu=False, name='cls1_fc_pose_xy')
             cls1_fc_pose_ab = NW.fc(cls1_fc1_pose, 2, relu=False, name='cls1_fc_pose_ab')
+            self.layers["cls1_fc_pose_xy"] = cls1_fc_pose_xy
+            self.layers["cls1_fc_pose_ab"] = cls1_fc_pose_ab
         
         """ 4st inception layer group """
         print("icp4")
@@ -171,7 +173,8 @@ class Posenet(object):
             cls2_fc1 = NW.fc(cls2_reduction_pose, 1024, name='cls2_fc1')
             cls2_fc_pose_xy = NW.fc(cls2_fc1, 2, relu=False, name='cls2_fc_pose_xy')
             cls2_fc_pose_ab = NW.fc(cls2_fc1, 2, relu=False, name='cls2_fc_pose_ab')
-
+            self.layers["cls2_fc_pose_xy"] = cls2_fc_pose_xy
+            self.layers["cls2_fc_pose_ab"] = cls2_fc_pose_ab
 
         """ 7st inception layer group """
         print("icp7")
@@ -240,7 +243,10 @@ class Posenet(object):
             cls3_fc1_pose = NW.fc(cls3_pool, 2048, name='cls3_fc1_pose')
             cls3_fc_pose_xy = NW.fc(cls3_fc1_pose, 2, relu=False, name='cls3_fc_pose_xy')
             cls3_fc_pose_ab = NW.fc(cls3_fc1_pose, 2, relu=False, name='cls3_fc_pose_ab')
-        
+            self.layers["cls3_fc_pose_xy"] = cls3_fc_pose_xy
+            self.layers["cls3_fc_pose_ab"] = cls3_fc_pose_ab
+            
+            
     def load_initial_weights(self, session, SKIP_LAYER=[]):
         """
         load pretraining weights except the layers in self.skip_layers into memary
@@ -260,7 +266,7 @@ class Posenet(object):
                 with tf.variable_scope(op_name, reuse = True):
                     # Loop over list of weights/biases and assign them to their corresponding tf variable
                     for key in layer_params[op_name]:
-                        print("load layer params:%s" % op_name)
+#                         print("load layer params:%s" % op_name)
                         data = layer_params[op_name][key]
                         # Biases
                         if len(data.shape) == 1:

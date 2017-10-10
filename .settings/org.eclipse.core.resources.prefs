@@ -8,6 +8,7 @@ encoding//src/testdemo/demo01_basic_operation.py=UTF-8
 encoding//src/tf_dataio/test.py=UTF-8
 encoding//src/tf_dataio/tfrecords_io.py=UTF-8
 encoding//src/util/image_augmentation.py=UTF-8
+encoding//src/vps/demo_functions.py=UTF-8
 encoding//src/vps/draw_network.py=UTF-8
 encoding//src/vps/network_tookit.py=UTF-8
 encoding//src/vps/posenet.py=UTF-8
