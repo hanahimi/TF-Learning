@@ -14,7 +14,7 @@ class Posenet(object):
         x: placeholder for images
         weights_path: path string, path to pretraining weights, a npy file
         """
-        self.X = x
+        self.X = x  # [?, 224, 224, 3]
         self.layers = {}
         self.WEIGHTS_PATH = weights_path
         self.SKIP_LAYER = []
@@ -256,7 +256,9 @@ class Posenet(object):
         w = layer_params["conv1"]["weights"]
         b = layer_params["conv1"]["biases"]
         """
-        self.SKIP_LAYER = SKIP_LAYER
+        if SKIP_LAYER:
+            self.SKIP_LAYER = SKIP_LAYER
+        
         layer_params = np.load(self.WEIGHTS_PATH, encoding = "latin1").item()
         
         # Loop over all layer names stored in the weights dict
@@ -265,8 +267,8 @@ class Posenet(object):
             if op_name not in self.SKIP_LAYER:
                 with tf.variable_scope(op_name, reuse = True):
                     # Loop over list of weights/biases and assign them to their corresponding tf variable
+                    print("load layer params:%s" % op_name)
                     for key in layer_params[op_name]:
-#                         print("load layer params:%s" % op_name)
                         data = layer_params[op_name][key]
                         # Biases
                         if len(data.shape) == 1:

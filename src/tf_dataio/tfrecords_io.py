@@ -59,7 +59,11 @@ class ExampleReader(object):
     @staticmethod
     def _float_feature(value):  
         return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))  
-
+    
+    @staticmethod
+    def _float_List_feature(value):
+        return tf.train.Feature(float_list=tf.train.FloatList(value=value))
+    
     
     @staticmethod
     def convert_logs_to_tfrecords(src_dataset_log_path, dst_tf_records_path, processfunc):

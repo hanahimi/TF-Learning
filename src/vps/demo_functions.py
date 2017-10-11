@@ -20,12 +20,14 @@ def draw_posenework(weights_path):
 
     with tf.name_scope('network'):
         net = Posenet(images, weights_path)
-
+        skip_layer = ["cls1_reduction", "cls1_fc1", "cls1_fc2",
+                              "cls2_reduction", "cls2_fc1", "cls2_fc2",
+                              "cls3_fc"]
     init = tf.global_variables_initializer()
     sess = tf.Session()
     _writer = tf.summary.FileWriter("logs/", sess.graph)
     sess.run(init)
-    net.load_initial_weights(sess)
+    net.load_initial_weights(sess, skip_layer)
 
 def draw_posenework2(weights_path):
     with tf.name_scope('inputs'):
@@ -35,12 +37,14 @@ def draw_posenework2(weights_path):
 
     with tf.name_scope('network'):
         net = Posenet(images, weights_path)
-
+        skip_layer = ["cls1_reduction", "cls1_fc1", "cls1_fc2",
+                              "cls2_reduction", "cls2_fc1", "cls2_fc2",
+                              "cls3_fc"]
     init = tf.global_variables_initializer()
     with tf.Session() as sess:
         _writer = tf.summary.FileWriter("logs/", sess.graph)
         sess.run(init)
-        net.load_initial_weights(sess)
+        net.load_initial_weights(sess, skip_layer)
 
 
 
@@ -107,4 +111,8 @@ def simple_testposenet(mean_path, img_path, weights_path):
 
 if __name__=="__main__":
     pass
-
+    weights_path = r"D:\loc_train\googlenet\version_3_enum_places\places_googlenet.npy"
+    draw_posenework(weights_path)
+    
+    
+    
