@@ -7,7 +7,7 @@ import cv2
 import os
 from tqdm import tqdm
 
-batch_size = 32
+BATCH_SIZE = 32
 max_iterations = 30000
 # Set this path to your dataset directory
 directory = r'D:\loc_train'
@@ -95,7 +95,7 @@ def gen_data_batch(source):
 		image_batch = []
 		pose_x_batch = []
 		pose_q_batch = []
-		for _ in range(batch_size):
+		for _ in range(BATCH_SIZE):
 			image, pose_x, pose_q = next(data_gen)
 			image_batch.append(image)
 			pose_x_batch.append(pose_x)
@@ -104,9 +104,9 @@ def gen_data_batch(source):
 
 
 def main():
-	images = tf.placeholder(tf.float32, [batch_size, 224, 224, 3])
-	poses_x = tf.placeholder(tf.float32, [batch_size, 2])
-	poses_q = tf.placeholder(tf.float32, [batch_size, 2])
+	images = tf.placeholder(tf.float32, [BATCH_SIZE, 224, 224, 3])
+	poses_x = tf.placeholder(tf.float32, [BATCH_SIZE, 2])
+	poses_q = tf.placeholder(tf.float32, [BATCH_SIZE, 2])
 	datasource = get_data()
 
 	net = PoseNet({'data': images})

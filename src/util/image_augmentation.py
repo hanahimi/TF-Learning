@@ -16,6 +16,28 @@ class ImageTransformer:
         pass
     
     @staticmethod
+    def centered_crop(img, output_H=224, output_W=224):
+        """ Crop the center ROI from input image
+        Args:
+          img: ndarray-like, shape = (c,h,w)
+          output_H: output size height default(224)
+          output_W: output size width default(224)
+        Return:
+            cropped_img: center image of given size
+        """
+        rows, cols, _ = img.shape
+        new_H = output_H
+        new_W = output_W
+        if rows > cols:
+            new_H = output_W * rows / cols
+        else:
+            new_W = output_W * cols / rows
+        H_offset = int((new_H - output_H) / 2)
+        W_offset = int((new_W - output_W) / 2)
+        cropped_img = img[H_offset:H_offset + output_H, W_offset:W_offset + output_W]
+        return cropped_img
+    
+    @staticmethod
     def random_crop(image, bbox_left, bbox_top, bbox_width, bbox_height,scale=1.3):
         # 以bbox为中心随机剪裁正方形区域
         # scale表示最大边对应扩展的比例

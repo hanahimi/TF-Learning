@@ -5,14 +5,15 @@ eclipse.preferences.version=1
 encoding//src/ggln/in.py=UTF-8
 encoding//src/ocr_demo/convert_to_tfrecords.py=UTF-8
 encoding//src/testdemo/demo01_basic_operation.py=UTF-8
-<<<<<<< HEAD
-=======
 encoding//src/tf_dataio/test.py=UTF-8
 encoding//src/tf_dataio/tfrecords_io.py=UTF-8
 encoding//src/util/image_augmentation.py=UTF-8
+encoding//src/vps/demo_functions.py=UTF-8
+encoding//src/vps/draw_network.py=UTF-8
 encoding//src/vps/network_tookit.py=UTF-8
 encoding//src/vps/posenet.py=UTF-8
->>>>>>> 43b1b66b0c7d8b30579f97b6976b29bd8ed56a89
+encoding//src/vps/preprocess.py=UTF-8
+encoding//src/vps/train_simple.py=UTF-8
 encoding//tutorials/L01_basic/01_Session.py=UTF-8
 encoding//tutorials/L01_basic/02_placeholder.py=UTF-8
 encoding//tutorials/L01_basic/03_variable.py=UTF-8
@@ -22,4 +23,3 @@ encoding//tutorials/L02_simple/build_simple_nn.py=UTF-8
 encoding//tutorials/L02_simple/simple_regression.py=UTF-8
 encoding//tutorials/L02_simple/simple_tensorboard_01.py=UTF-8
 encoding//tutorials/L02_simple/simple_tensorboard_02.py=UTF-8
-encoding//tutorials/L03_classic/recurrent_network.py=UTF-8

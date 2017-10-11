@@ -23,7 +23,7 @@ class NW():
         return tf.get_variable(name, shape, trainable = trainable)
     
     @staticmethod
-    def conv(x, filter_height, filter_width, num_filters, stride_y, stride_x, name,padding='SAME', groups=1, relu = True):
+    def conv(x, filter_height, filter_width, num_filters, stride_y, stride_x, name, padding='SAME', groups=1, relu = True):
         # Get number of input channels
         input_channels = int(x.get_shape()[-1])
 
@@ -52,25 +52,36 @@ class NW():
                 conv = tf.concat(axis = 3, values = output_groups)
 
             # Add biases
-            bias = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape().as_list())
+            output = tf.nn.bias_add(conv, biases)
+#             bias = tf.reshape(tf.nn.bias_add(conv, biases), conv.get_shape().as_list())
   
             if relu == True:
                 # Apply relu function
-                relu = tf.nn.relu(bias, name = scope.name)
+                relu = tf.nn.relu(output, name = scope.name)
                 return relu
             else:
-                return bias
+                return output
                 
                 
     @staticmethod
-    def fc(x, num_in, num_out, name, relu = True):
+    def fc(x, num_out, name, relu = True):
         with tf.variable_scope(name) as scope:
+            input_shape = x.get_shape()
+            if input_shape.ndims == 4:
+                # The input is spatial. Vectorize it first.
+                num_in = 1
+                for d in input_shape[1:].as_list():
+                    num_in *= d
+                feed_in = tf.reshape(x, [-1, num_in])
+            else:
+                feed_in, num_in = (x, input_shape[-1].value)
+                
             # Create tf variables for the weights and biases
             weights = tf.get_variable('weights', shape=[num_in, num_out], trainable=True)
             biases = tf.get_variable('biases', [num_out], trainable=True)
     
             # Matrix multiply weights and inputs and add bias
-            act = tf.nn.xw_plus_b(x, weights, biases, name=scope.name)
+            act = tf.nn.xw_plus_b(feed_in, weights, biases, name=scope.name)
     
             if relu == True:
                 # Apply ReLu non linearity
