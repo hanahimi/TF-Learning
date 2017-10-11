@@ -15,10 +15,11 @@ from util.image_augmentation import ImageTransformer
 BATCH_SIZE = 32
 max_iterations = 30000
 # Set this path to your dataset directory
-directory = r'D:\0924S5_SEL'
+directory = r'D:\Env_WJR\dataset\tf_vps\0924S5_SEL'
 dataset = 'dataset_0925S5'
 tr_dataset = dataset+"_train.txt"
 dataset_npy = dataset+".npy"
+OUTPUT_FILE = dataset+".ckpt"
 
 class PoseYCL:
     """ Pose Data preprocess(YCL) module
@@ -142,7 +143,7 @@ def main():
     poses_x = tf.placeholder(tf.float32, [BATCH_SIZE, 2])
     poses_q = tf.placeholder(tf.float32, [BATCH_SIZE, 2])
 
-    weights_path = r"D:\loc_train\googlenet\version_3_enum_places\places_googlenet.npy"
+    weights_path = r"D:\Env_WJR\dataset\loc_train\googlenet\version_4_googlenet_places_short\places_googlenet.npy"
     net = Posenet(images, weights_path)
     skip_layer = ["cls1_reduction", "cls1_fc1", "cls1_fc2",
                   "cls2_reduction", "cls2_fc1", "cls2_fc2",
@@ -165,10 +166,11 @@ def main():
 
     loss = l1_x + l1_q + l2_x + l2_q + l3_x + l3_q
     opt = tf.train.AdamOptimizer(learning_rate=0.0001, beta1=0.9, beta2=0.999, epsilon=0.00000001, use_locking=False, name='Adam').minimize(loss)
-
+#     sess_config = tf.ConfigProto()
+#     sess_config.gpu_options.per_process_gpu_memory_fraction = 0.90
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
-    outputFile = r"D:\loc_train\PoseNet.ckpt"
+    outputFile = os.path.join(directory,dataset,OUTPUT_FILE)
 
     with tf.Session() as sess:
         _writer = tf.summary.FileWriter("logs/", sess.graph)
