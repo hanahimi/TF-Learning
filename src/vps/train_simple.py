@@ -19,7 +19,7 @@ directory = r'D:\Env_WJR\dataset\tf_vps\0924S5_SEL'
 dataset = 'dataset_0925S5'
 tr_dataset = dataset+"_train.txt"
 dataset_npy = dataset+".npy"
-OUTPUT_FILE = dataset+".ckpt"
+OUTPUT_FILE = r"D:\Env_WJR\dataset\tf_vps\0924S5_SEL\dataset_0925S5\saver\dataset_0925S5.ckpt"
 
 class PoseYCL:
     """ Pose Data preprocess(YCL) module
@@ -170,14 +170,15 @@ def main():
 #     sess_config.gpu_options.per_process_gpu_memory_fraction = 0.90
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
-    outputFile = os.path.join(directory,dataset,OUTPUT_FILE)
 
     with tf.Session() as sess:
         _writer = tf.summary.FileWriter("logs/", sess.graph)
-
+#         sess.run(init)
         # Load the net
-        sess.run(init)
-        net.load_initial_weights(sess, skip_layer)
+#         net.load_initial_weights(sess, skip_layer)
+
+        print("restoring:", OUTPUT_FILE)
+        saver.restore(sess, OUTPUT_FILE)
 
         # Load the data
         data_gen = datasource.gen_data_batch(32)
@@ -189,10 +190,10 @@ def main():
             if i % 10 == 0:
                 print("iteration: " + str(i) + "\n\t" + "Loss is: " + str(np_loss))
             if i % 100 == 0:
-                saver.save(sess, outputFile)
-                print("Intermediate file saved at: " + outputFile)
-        saver.save(sess, outputFile)
-        print("Intermediate file saved at: " + outputFile)
+                saver.save(sess, OUTPUT_FILE)
+                print("Intermediate file saved at: " + OUTPUT_FILE)
+        saver.save(sess, OUTPUT_FILE)
+        print("Intermediate file saved at: " + OUTPUT_FILE)
         
 if __name__=="__main__":
     pass
