@@ -1,29 +1,29 @@
 #-*-coding:UTF-8-*-
 '''
-Created on 2017Äê8ÔÂ31ÈÕ-ÏÂÎç1:20:16
+Created on 2017å¹´8æœˆ31æ—¥-ä¸‹åˆ1:20:16
 author: Gary-W
 
-½âÎöcaffeÍøÂç½á¹¹²¢±£´æ²ÎÊı W, bµ½pickleÖĞ
-ÔËĞĞ»·¾³Îª py2.7
+è§£æcaffeç½‘ç»œç»“æ„å¹¶ä¿å­˜å‚æ•° W, båˆ°pickleä¸­
+è¿è¡Œç¯å¢ƒä¸º py2.7
 ref:
 http://blog.csdn.net/u011933123/article/details/53589354
 
-caffe ÍøÂçÈ¨ÖØ Óë tf Ïà»¥×ª»»,Ê¹ÓÃlayerµÄÃû×Ö½øĞĞ¶ÔÓ¦
-×¢Òâµ½£º
-tensorflow È¨ÖØ²ÎÊıµÄÎ¬¶È¶ÔÓ¦Îª [filter_height, filter_width, in_channels, out_channels]
+caffe ç½‘ç»œæƒé‡ ä¸ tf ç›¸äº’è½¬æ¢,ä½¿ç”¨layerçš„åå­—è¿›è¡Œå¯¹åº”
+æ³¨æ„åˆ°ï¼š
+tensorflow æƒé‡å‚æ•°çš„ç»´åº¦å¯¹åº”ä¸º [filter_height, filter_width, in_channels, out_channels]
                                      2               3            1            0
 
-caffe È¨ÖØ²ÎÊıµÄÎ¬¶È¶ÔÓ¦Îª     [out_channels, in_channels, filter_height, filter_width] 
+caffe æƒé‡å‚æ•°çš„ç»´åº¦å¯¹åº”ä¸º     [out_channels, in_channels, filter_height, filter_width] 
                                  0             1            2              3
 eg. caffe:  a convolution layer with 96 filters of 11 x 11 spatial dimension and 3 inputs the blob is:
                             96 x 3 x 11 x 11
 
 
-Òò´ËĞèÒª½«Ä³Ò»·½µÄÈ¨ÖØµÄÍ¨µÀÎ¬¶È½øĞĞ×ªÖÃ
-fc ²ãÍ¬Àí
+å› æ­¤éœ€è¦å°†æŸä¸€æ–¹çš„æƒé‡çš„é€šé“ç»´åº¦è¿›è¡Œè½¬ç½®
+fc å±‚åŒç†
 
-Òò´Ë£¬¸Ã¹¤¾ß¼¯ÖĞ¹æ¶¨×îÖÕ½âÎöµÃµ½µÄÈ¨ÖØ£¬¾ù²ÉÓÃ [filter_height, filter_width, in_channels, out_channels]µÄ·½Ê½½øĞĞ´æ´¢
-ÓĞ¶ÔÓ¦µÄÍøÂç»·¾³×ÔĞĞ×ªÖÃ
+å› æ­¤ï¼Œè¯¥å·¥å…·é›†ä¸­è§„å®šæœ€ç»ˆè§£æå¾—åˆ°çš„æƒé‡ï¼Œå‡é‡‡ç”¨ [filter_height, filter_width, in_channels, out_channels]çš„æ–¹å¼è¿›è¡Œå­˜å‚¨
+æœ‰å¯¹åº”çš„ç½‘ç»œç¯å¢ƒè‡ªè¡Œè½¬ç½®
 
 '''
 import caffe
@@ -35,7 +35,7 @@ save_path = 'data/src.npy'
 
 caffe_model = caffe.Net(caffe_net, caffe_weights, caffe.TEST)
 
-# ¼ÇÂ¼ĞèÒª½øĞĞ±£´æµÄÍøÂç²ã¹Ø¼ü×Ö
+# è®°å½•éœ€è¦è¿›è¡Œä¿å­˜çš„ç½‘ç»œå±‚å…³é”®å­—
 name_keyword = ["Convolution", "InnerProduct"]
 
 layer_params = {}
@@ -46,8 +46,8 @@ for i, layer in enumerate(caffe_model.layers):
 
     if layer.type == "Convolution":
         layer_params[layer_name] = {}
-        # ×¢ÒâÕâbolbs.dataÊÇÒ»¸öÖ¸Õë£¬Ö»¿ÉÒÔ·½·¨ÆäÊôĞÔ
-        # ±ØĞë½øĞĞÉîcopy²Ù×÷²Å¿É·ÃÎÊËûÃÇµÄÖµ
+        # æ³¨æ„è¿™bolbs.dataæ˜¯ä¸€ä¸ªæŒ‡é’ˆï¼Œåªå¯ä»¥æ–¹æ³•å…¶å±æ€§
+        # å¿…é¡»è¿›è¡Œæ·±copyæ“ä½œæ‰å¯è®¿é—®ä»–ä»¬çš„å€¼
         weights = layer.blobs[0].data
         biases = layer.blobs[1].data
         layer_params[layer_name]['weights'] = weights.transpose((2, 3, 1, 0))
