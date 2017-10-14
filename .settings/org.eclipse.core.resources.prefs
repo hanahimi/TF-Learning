@@ -3,7 +3,6 @@
 >>>>>>>=remotes/origin/Movan_Python_Tutorials
 eclipse.preferences.version=1
 encoding//src/caffe-tensorflow/caffemodel2npy.py=UTF-8
-encoding//src/ggln/in.py=UTF-8
 encoding//src/ocr_demo/convert_to_tfrecords.py=UTF-8
 encoding//src/testdemo/demo01_basic_operation.py=UTF-8
 encoding//src/tf_dataio/test.py=UTF-8
@@ -14,6 +13,7 @@ encoding//src/vps/draw_network.py=UTF-8
 encoding//src/vps/network_tookit.py=UTF-8
 encoding//src/vps/posenet.py=UTF-8
 encoding//src/vps/preprocess.py=UTF-8
+encoding//src/vps/test_simple.py=UTF-8
 encoding//src/vps/train_simple.py=UTF-8
 encoding//tutorials/L01_basic/01_Session.py=UTF-8
 encoding//tutorials/L01_basic/02_placeholder.py=UTF-8
