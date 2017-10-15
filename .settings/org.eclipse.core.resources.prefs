@@ -3,7 +3,7 @@
 >>>>>>>=remotes/origin/Movan_Python_Tutorials
 eclipse.preferences.version=1
 encoding//src/caffe-tensorflow/caffemodel2npy.py=UTF-8
-encoding//src/ggln/in.py=UTF-8
+encoding//src/caffe-tensorflow/npy2caffemodel.py=UTF-8
 encoding//src/ocr_demo/convert_to_tfrecords.py=UTF-8
 encoding//src/testdemo/demo01_basic_operation.py=UTF-8
 encoding//src/tf_dataio/test.py=UTF-8
