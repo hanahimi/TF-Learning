@@ -15,17 +15,17 @@ from util.image_augmentation import ImageTransformer
 BATCH_SIZE = 32
 max_iterations = 30000
 # Set this path to your dataset directory
-directory = r'D:\tf_vps\vps'
+directory = r'D:\Ayumi\workspace\dataset\vps_dataset'
 
-dataset = r'dataset_0925S5'
-tr_dataset = dataset+"_train.txt"
-dataset_npy = dataset+"_train.npy"
-save_ckpt = dataset+".ckpt"
+dataname = r'dataset_0925S5'
+tr_dataset = dataname+"_train.txt"
+dataset_npy = dataname+"_train.npy"
+save_ckpt = dataname+".ckpt"
 
-TRAIN_DATASET = os.path.join(directory,"dataset",tr_dataset)
-DS_PATH = os.path.join(directory,"dataset", dataset_npy)
-FINETUNE_WEIGHTS_PATH = os.path.join(directory,"models","places_googlenet.npy")
-OUTPUT_FILE = os.path.join(directory,"save",dataset,save_ckpt)
+TRAIN_DATASET = os.path.join(directory,dataname,"dataset",tr_dataset)
+DS_PATH = os.path.join(directory,dataname,"dataset", dataset_npy)
+FINETUNE_WEIGHTS_PATH = os.path.join(directory,dataname,"models","places_googlenet.npy")
+OUTPUT_FILE = os.path.join(directory,dataname,"save",save_ckpt)
 
 class PoseYCL:
     """ Pose Data preprocess(YCL) module
@@ -196,9 +196,11 @@ def main():
             np_images, np_poses_x, np_poses_q = next(data_gen)
             feed = {images: np_images, poses_x: np_poses_x, poses_q: np_poses_q}
             sess.run(opt, feed_dict=feed)
-            np_loss = sess.run(loss, feed_dict=feed)
+            np_loss, sx_val, sq_val = sess.run([loss, sx, sq], feed_dict=feed)
             if i % 10 == 0:
                 print("iteration: " + str(i) + "\n\t" + "Loss is: " + str(np_loss))
+                print("\t sx = " + str(sx_val) + "  sq = " + str(sq_val))
+                
             if i % 100 == 0:
                 saver.save(sess, OUTPUT_FILE)
                 print("Intermediate file saved at: " + OUTPUT_FILE)
